@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fun2ssh Water Park – Ultimate Splash Destination</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --aqua: #00C9E4;
+    --sky: #0099CC;
+    --deep: #005F8A;
+    --splash: #FFD700;
+    --coral: #FF6B6B;
+    --mint: #B2F5EA;
+    --white: #FFFFFF;
+    --light: #F0FBFF;
+    --dark: #0A2540;
+    --wave-light: rgba(0,201,228,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--white);
+    color: var(--dark);
+    overflow-x: hidden;
+  }
+
+  /* ── NAVBAR ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+    background: rgba(0,31,60,0.92);
+    backdrop-filter: blur(12px);
+    padding: 0 1.2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 60px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+  }
+
+  .nav-logo {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.4rem; font-weight: 800;
+    color: var(--white);
+    letter-spacing: -0.5px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .nav-logo img {
+    width: 34px; height: 34px;
+    object-fit: contain;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.12);
+    padding: 2px;
+  }
+  .nav-logo span { color: var(--aqua); }
+  .nav-logo .drop { font-size: 1.2rem; }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute; top: 60px; left: 0; right: 0;
+    background: rgba(0,31,60,0.97);
+    padding: 1rem 0;
+    list-style: none;
+  }
+  .nav-links.open { display: flex; }
+  .nav-links li a {
+    display: block; padding: 0.7rem 1.6rem;
+    color: var(--white); text-decoration: none;
+    font-weight: 600; font-size: 0.95rem;
+    transition: color 0.2s;
+  }
+  .nav-links li a:hover { color: var(--aqua); }
+
+  .hamburger {
+    background: none; border: none; cursor: pointer;
+    display: flex; flex-direction: column; gap: 5px; padding: 4px;
+  }
+  .hamburger span {
+    display: block; width: 24px; height: 2px;
+    background: var(--white); border-radius: 2px;
+    transition: all 0.3s;
+  }
+  .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+  .hamburger.active span:nth-child(2) { opacity: 0; }
+  .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+
+  @media(min-width:768px){
+    .hamburger { display: none; }
+    .nav-links {
+      display: flex !important; flex-direction: row;
+      position: static; background: none; padding: 0;
+      gap: 0.2rem;
+    }
+    .nav-links li a { padding: 0.4rem 0.8rem; font-size: 0.88rem; }
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100svh;
+    background: linear-gradient(160deg, #001f3c 0%, #005F8A 40%, #00C9E4 100%);
+    display: flex; flex-direction: column; justify-content: flex-end;
+    position: relative; overflow: hidden;
+    padding: 0 0 90px;
+  }
+
+  .hero-bubbles { position: absolute; inset: 0; pointer-events: none; }
+  .bubble {
+    position: absolute; border-radius: 50%;
+    background: rgba(255,255,255,0.07);
+    animation: rise linear infinite;
+  }
+  @keyframes rise {
+    0%   { transform: translateY(0) scale(1); opacity: 0.5; }
+    100% { transform: translateY(-110vh) scale(1.4); opacity: 0; }
+  }
+
+  /* Sun */
+  .hero-sun {
+    position: absolute; top: 5%; right: -30px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, #FFE566 30%, #FFD700 60%, rgba(255,215,0,0) 100%);
+    border-radius: 50%;
+    animation: pulse 4s ease-in-out infinite;
+    opacity: 0.7;
+  }
+  @keyframes pulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.08);} }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    padding: 0 1.4rem;
+    animation: fadeUp 0.9s ease both;
+  }
+  
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(40px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255,215,0,0.22); border: 1px solid var(--splash);
+    color: var(--splash); font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    padding: 4px 12px; border-radius: 20px; margin-bottom: 1rem;
+  }
+
+  .hero h1 {
+    font-family: 'Baloo 2', cursive;
+    font-size: clamp(2rem,7vw,4rem);
+    font-weight: 800; color: var(--white);
+    line-height: 1.15; margin-bottom: 0.8rem;
+  }
+  .hero h1 span { color: var(--aqua); }
+
+  .hero p {
+    color: rgba(255,255,255,0.82);
+    font-size: clamp(0.95rem,3vw,1.2rem);
+    max-width: 520px; margin-bottom: 1.8rem;
+    line-height: 1.6;
+  }
+
+  .hero-btns { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    color: #1a1a1a; font-family: 'Baloo 2', cursive;
+    font-size: 1rem; font-weight: 800;
+    padding: 0.85rem 1.8rem; border-radius: 50px;
+    border: none; cursor: pointer; text-decoration: none;
+    box-shadow: 0 4px 20px rgba(255,165,0,0.45);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(255,165,0,0.55); }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--white); font-family: 'Baloo 2', cursive;
+    font-size: 1rem; font-weight: 700;
+    padding: 0.82rem 1.6rem; border-radius: 50px;
+    border: 2px solid rgba(255,255,255,0.5);
+    cursor: pointer; text-decoration: none;
+    transition: all 0.2s;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn-outline:hover { border-color: var(--aqua); color: var(--aqua); }
+
+  /* Wave divider */
+  .wave-divider { display: block; width: 100%; line-height: 0; }
+
+  /* ── ABOUT ── */
+  .about { background: var(--light); padding: 4rem 1.4rem; }
+  .section-tag {
+    display: inline-block;
+    background: rgba(0,201,228,0.12); color: var(--sky);
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 2.5px;
+    text-transform: uppercase; padding: 5px 14px; border-radius: 20px;
+    margin-bottom: 0.8rem;
+  }
+  .section-title {
+    font-family: 'Baloo 2', cursive;
+    font-size: clamp(1.6rem,5vw,2.4rem);
+    font-weight: 800; color: var(--dark); margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+  .section-title span { color: var(--aqua); }
+
+  .about-grid { max-width: 900px; margin: 0 auto; }
+  .about-desc {
+    color: #4a5568; font-size: 1rem; line-height: 1.8;
+    margin-bottom: 2rem;
+  }
+  .about-stats {
+    display: grid; grid-template-columns: repeat(3,1fr);
+    gap: 0.8rem;
+  }
+  .stat-card {
+    background: var(--white);
+    border-radius: 16px; padding: 1.2rem 0.8rem;
+    text-align: center;
+    box-shadow: 0 2px 16px rgba(0,100,180,0.08);
+    border: 1px solid rgba(0,201,228,0.15);
+  }
+  .stat-num {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.8rem; font-weight: 800;
+    color: var(--sky); display: block; line-height: 1;
+  }
+  .stat-label { font-size: 0.72rem; font-weight: 700; color: #718096; margin-top: 4px; }
+
+  .about-features { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.8rem; }
+  .feat-pill {
+    background: var(--white); border: 1.5px solid rgba(0,201,228,0.3);
+    color: var(--deep); font-size: 0.82rem; font-weight: 700;
+    padding: 6px 14px; border-radius: 30px;
+    display: flex; align-items: center; gap: 5px;
+  }
+
+  /* ── ATTRACTIONS ── */
+  .attractions { background: var(--white); padding: 4rem 1.4rem; }
+  .attractions-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1rem; max-width: 1100px; margin: 2rem auto 0;
+  }
+  .attr-card {
+    border-radius: 20px; overflow: hidden;
+    position: relative; min-height: 180px;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    cursor: pointer;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .attr-card:hover { transform: translateY(-6px); box-shadow: 0 12px 32px rgba(0,0,0,0.18); }
+  .attr-card:hover .attr-img { transform: scale(1.07); }
+
+  .attr-img {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    transition: transform 0.4s ease;
+  }
+  .attr-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,20,50,0.85) 0%, transparent 60%);
+  }
+  .attr-body { position: relative; z-index: 2; padding: 1rem; }
+  .attr-icon { font-size: 1.6rem; display: block; margin-bottom: 4px; }
+  .attr-title {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1rem; font-weight: 800; color: var(--white);
+  }
+  .attr-desc { font-size: 0.75rem; color: rgba(255,255,255,0.8); line-height: 1.4; margin-top: 2px; }
+
+  @media(min-width:600px){
+    .attractions-grid { grid-template-columns: repeat(4,1fr); }
+    .attr-card { min-height: 220px; }
+  }
+
+  /* slide gradient backgrounds */
+  .bg-slides  { background: linear-gradient(135deg,#0077B6,#00B4D8); }
+  .bg-wave    { background: linear-gradient(135deg,#023E8A,#0096C7); }
+  .bg-kids    { background: linear-gradient(135deg,#FF6B6B,#FFD93D); }
+  .bg-rain    { background: linear-gradient(135deg,#48CAE4,#00B4D8); }
+
+  /* ── PRICING ── */
+  .pricing { background: linear-gradient(160deg, #001f3c, #005f8a); padding: 4rem 1.4rem; }
+  .pricing .section-title { color: var(--white); }
+  .pricing .section-tag { background: rgba(255,255,255,0.1); color: var(--aqua); }
+  .pricing-grid {
+    display: grid; grid-template-columns: 1fr;
+    gap: 1rem; max-width: 900px; margin: 2rem auto 0;
+  }
+  @media(min-width:600px){ .pricing-grid { grid-template-columns: repeat(3,1fr); } }
+
+  .price-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(0,201,228,0.2);
+    border-radius: 20px; padding: 1.6rem 1.2rem;
+    text-align: center; position: relative;
+    transition: transform 0.3s, background 0.3s;
+    backdrop-filter: blur(8px);
+  }
+  .price-card.featured {
+    background: rgba(0,201,228,0.12);
+    border-color: var(--aqua);
+    transform: scale(1.03);
+  }
+  .price-badge {
+    position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+    background: var(--splash); color: #1a1a1a;
+    font-size: 0.65rem; font-weight: 800; letter-spacing: 1.5px;
+    text-transform: uppercase; padding: 4px 14px; border-radius: 20px;
+  }
+  .price-card:hover { transform: translateY(-4px) scale(1.02); background: rgba(0,201,228,0.15); }
+  .price-card.featured:hover { transform: translateY(-4px) scale(1.05); }
+
+  .price-type { font-size: 0.72rem; font-weight: 700; color: var(--aqua); letter-spacing: 2px; text-transform: uppercase; }
+  .price-amount {
+    font-family: 'Baloo 2', cursive;
+    font-size: 2.4rem; font-weight: 800; color: var(--white); margin: 0.4rem 0 0;
+    line-height: 1;
+  }
+  .price-amount sup { font-size: 1rem; vertical-align: super; }
+  .price-per { font-size: 0.75rem; color: rgba(255,255,255,0.5); }
+  .price-features { list-style: none; margin: 1rem 0 1.4rem; text-align: left; }
+  .price-features li {
+    font-size: 0.82rem; color: rgba(255,255,255,0.8);
+    padding: 4px 0; display: flex; align-items: center; gap: 7px;
+  }
+  .price-features li::before { content:"✓"; color: var(--aqua); font-weight: 800; }
+
+  .btn-wa {
+    background: #25D366; color: var(--white);
+    font-family: 'Baloo 2', cursive; font-size: 0.9rem; font-weight: 700;
+    padding: 0.7rem 1.4rem; border-radius: 50px; border: none;
+    cursor: pointer; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px;
+    transition: all 0.2s; width: 100%; justify-content: center;
+    box-shadow: 0 3px 14px rgba(37,211,102,0.35);
+  }
+  .btn-wa:hover { background: #1eb85a; transform: translateY(-2px); }
+
+  /* ── GALLERY ── */
+  .gallery { background: var(--light); padding: 4rem 1.4rem; }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 0.6rem; max-width: 1000px; margin: 2rem auto 0;
+  }
+  @media(min-width:600px){ .gallery-grid { grid-template-columns: repeat(3,1fr); } }
+  @media(min-width:900px){ .gallery-grid { grid-template-columns: repeat(4,1fr); } }
+
+  .gallery-item {
+    border-radius: 14px; overflow: hidden;
+    aspect-ratio: 1;
+    position: relative; cursor: pointer;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+  }
+  .gallery-item:hover { transform: scale(1.04); }
+  .gallery-item .gi-bg {
+    width: 100%; height: 100%;
+    background-size: cover; background-position: center;
+    transition: transform 0.4s;
+  }
+  .gallery-item:hover .gi-bg { transform: scale(1.1); }
+  .gallery-item .gi-overlay {
+    position: absolute; inset: 0;
+    background: rgba(0,100,180,0.0);
+    transition: background 0.3s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .gallery-item:hover .gi-overlay { background: rgba(0,100,180,0.3); }
+  .gi-overlay span { color: var(--white); font-size: 2rem; opacity: 0; transition: opacity 0.3s; }
+  .gallery-item:hover .gi-overlay span { opacity: 1; }
+
+  /* ── OFFERS ── */
+  .offers { background: var(--white); padding: 4rem 1.4rem; }
+  .offers-grid {
+    display: grid; grid-template-columns: 1fr;
+    gap: 1rem; max-width: 900px; margin: 2rem auto 0;
+  }
+  @media(min-width:600px){ .offers-grid { grid-template-columns: repeat(3,1fr); } }
+
+  .offer-card {
+    border-radius: 20px; padding: 1.6rem;
+    position: relative; overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    border: 1px solid rgba(0,0,0,0.06);
+    transition: transform 0.3s;
+  }
+  .offer-card:hover { transform: translateY(-5px); }
+  .offer-card.weekend { background: linear-gradient(135deg, #ffecd2, #fcb69f); }
+  .offer-card.group   { background: linear-gradient(135deg, #a1c4fd, #c2e9fb); }
+  .offer-card.bday    { background: linear-gradient(135deg, #fddb92, #d1fdff); }
+
+  .offer-emoji { font-size: 2.5rem; display: block; margin-bottom: 0.6rem; }
+  .offer-title {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.15rem; font-weight: 800; color: var(--dark); margin-bottom: 4px;
+  }
+  .offer-desc { font-size: 0.82rem; color: #555; line-height: 1.5; margin-bottom: 1rem; }
+  .offer-discount {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.4rem; font-weight: 800; color: var(--coral);
+  }
+
+  /* ── LOCATION ── */
+  .location { background: var(--light); padding: 4rem 1.4rem; }
+  .map-wrap {
+    max-width: 860px; margin: 2rem auto 0;
+    border-radius: 20px; overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+    border: 3px solid var(--aqua);
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, #e0f7ff, #b3e5fc);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 0.5rem;
+  }
+  .map-placeholder { font-size: 3rem; }
+  .map-placeholder-text {
+    font-family: 'Baloo 2', cursive; font-size: 1rem; font-weight: 700;
+    color: var(--sky);
+  }
+  .map-address {
+    font-size: 0.85rem; color: #555; margin-top: 0.5rem;
+    display: flex; align-items: center; gap: 5px;
+  }
+
+  /* ── CONTACT ── */
+  .contact { background: var(--dark); padding: 4rem 1.4rem; }
+  .contact .section-title { color: var(--white); }
+  .contact .section-tag { background: rgba(255,255,255,0.08); color: var(--aqua); }
+  .contact-grid {
+    display: grid; grid-template-columns: 1fr;
+    gap: 1.2rem; max-width: 800px; margin: 2rem auto 0;
+  }
+  @media(min-width:600px){ .contact-grid { grid-template-columns: repeat(3,1fr); } }
+
+  .contact-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(0,201,228,0.15);
+    border-radius: 16px; padding: 1.4rem;
+    text-align: center; transition: background 0.3s;
+  }
+  .contact-card:hover { background: rgba(0,201,228,0.08); }
+  .contact-icon { font-size: 2rem; display: block; margin-bottom: 0.5rem; }
+  .contact-label { font-size: 0.7rem; font-weight: 700; color: var(--aqua); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .contact-value { font-size: 0.92rem; color: rgba(255,255,255,0.85); font-weight: 600; }
+  .contact-value a { color: #25D366; text-decoration: none; }
+  .contact-value a:hover { text-decoration: underline; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #001020;
+    padding: 2rem 1.4rem 5rem;
+    text-align: center;
+  }
+  .footer-logo {
+    font-family: 'Baloo 2', cursive; font-size: 1.5rem; font-weight: 800;
+    color: var(--white); margin-bottom: 0.8rem;
+  }
+  .footer-logo span { color: var(--aqua); }
+  .footer-socials {
+    display: flex; justify-content: center; gap: 0.7rem;
+    margin-bottom: 1rem;
+  }
+  .social-btn {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.1);
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none; font-size: 1.1rem;
+    transition: all 0.2s; color: var(--white);
+  }
+  .social-btn:hover { background: var(--aqua); border-color: var(--aqua); color: #001020; transform: translateY(-3px); }
+  .footer-copy { font-size: 0.75rem; color: rgba(255,255,255,0.35); }
+
+  /* ── FLOATING WA ── */
+  .float-wa {
+    position: fixed; bottom: 80px; right: 18px; z-index: 990;
+    width: 54px; height: 54px; border-radius: 50%;
+    background: #25D366;
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none; font-size: 1.6rem;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.5);
+    animation: waFloat 2.5s ease-in-out infinite;
+    transition: transform 0.2s;
+  }
+  .float-wa:hover { transform: scale(1.12); }
+  @keyframes waFloat { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-6px);} }
+
+  /* ── STICKY BOOK NOW (mobile) ── */
+  .sticky-book {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 991;
+    background: linear-gradient(90deg, #FFD700, #FFA500);
+    display: flex; align-items: center; justify-content: center;
+    height: 54px;
+    font-family: 'Baloo 2', cursive; font-size: 1rem; font-weight: 800;
+    color: #1a1a1a; text-decoration: none;
+    box-shadow: 0 -3px 20px rgba(255,165,0,0.4);
+    gap: 8px;
+  }
+  @media(min-width:768px){ .sticky-book { display: none; } }
+
+  /* ── HELPERS ── */
+  .text-center { text-align: center; }
+  .section-sub {
+    font-size: 0.95rem; color: #718096; max-width: 500px;
+    margin: 0 auto; line-height: 1.6;
+  }
+
+  /* scroll fade-in */
+  .fade-in { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav>
+  <div class="nav-logo">
+    <img src="fun2shh%20logo.jpg" alt="Fun2shh Water Park logo">
+    <span class="drop">💧</span>Fun<span>2ssh</span>
+  </div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about" onclick="closeNav()">About</a></li>
+    <li><a href="#attractions" onclick="closeNav()">Attractions</a></li>
+    <li><a href="#pricing" onclick="closeNav()">Tickets</a></li>
+    <li><a href="#gallery" onclick="closeNav()">Gallery</a></li>
+    <li><a href="#offers" onclick="closeNav()">Offers</a></li>
+    <li><a href="#contact" onclick="closeNav()">Contact</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero" id="home">
+  <div class="hero-sun"></div>
+  <div class="hero-bubbles" id="bubbles"></div>
+  <div class="hero-content">
+        <div class="hero-badge">🌊 Open Season 2025</div>
+    <h1>Welcome to<br><span>Fun2ssh</span> Water Park</h1>
+    <p>The Ultimate Destination for Fun &amp; Splash! Thrilling rides, cool waves &amp; unforgettable memories for the whole family.</p>
+    <div class="hero-btns">
+      <a href="https://wa.me/918329271447?text=Hi%2C%20I%20want%20to%20book%20tickets%20for%20Fun2ssh%20Water%20Park!" class="btn-primary" target="_blank" rel="noopener">
+        🎟 Book Now
+      </a>
+      <a href="#attractions" class="btn-outline">🎢 View Attractions</a>
+    </div>
+  </div>
+
+  <!-- wave bottom -->
+  <svg class="wave-divider" style="position:absolute;bottom:0;left:0;" viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#F0FBFF"/>
+  </svg>
+</section>
+
+<!-- ── ABOUT ── -->
+<section class="about fade-in" id="about">
+  <div class="about-grid">
+    <div class="section-tag">About Us</div>
+    <h2 class="section-title">Where Every Splash is<br>a <span>New Adventure</span></h2>
+    <p class="about-desc">
+      Fun2ssh Water Park is Aurangabad's premier water destination — a vibrant, sprawling aqua wonderland built for families, thrill-seekers, and little ones alike. With world-class rides, crystal-clear pools, and top-tier safety standards, every visit becomes a cherished memory. 🌊
+    </p>
+    <div class="about-stats">
+      <div class="stat-card"><span class="stat-num">20+</span><div class="stat-label">Attractions</div></div>
+      <div class="stat-card"><span class="stat-num">50k+</span><div class="stat-label">Happy Guests</div></div>
+      <div class="stat-card"><span class="stat-num">10yrs</span><div class="stat-label">Of Fun</div></div>
+    </div>
+    <div class="about-features">
+      <div class="feat-pill">🛡️ 100% Safe</div>
+      <div class="feat-pill">👨‍👩‍👧 Family Friendly</div>
+      <div class="feat-pill">🍔 Food Court</div>
+      <div class="feat-pill">🅿️ Free Parking</div>
+      <div class="feat-pill">♿ Accessible</div>
+      <div class="feat-pill">🏥 First Aid</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ATTRACTIONS ── -->
+<section class="attractions fade-in" id="attractions">
+  <div class="text-center">
+    <div class="section-tag">Attractions</div>
+    <h2 class="section-title">Rides &amp; <span>Thrills</span></h2>
+    <p class="section-sub">From heart-pounding slides to gentle splashes — there's something for every adventurer!</p>
+  </div>
+  <div class="attractions-grid">
+    <div class="attr-card">
+      <div class="attr-img bg-slides" style="background-image:url('https://images.unsplash.com/photo-1536016038808-c4c4a67f65f2?w=600&q=80')"></div>
+      <div class="attr-overlay"></div>
+      <div class="attr-body">
+        <span class="attr-icon">🎢</span>
+        <div class="attr-title">Water Slides</div>
+        <div class="attr-desc">8 thrilling slides for all ages</div>
+      </div>
+    </div>
+    <div class="attr-card">
+      <div class="attr-img bg-wave" style="background-image:url('https://images.unsplash.com/photo-1560090995-01632a28895b?w=600&q=80')"></div>
+      <div class="attr-overlay"></div>
+      <div class="attr-body">
+        <span class="attr-icon">🌊</span>
+        <div class="attr-title">Wave Pool</div>
+        <div class="attr-desc">Surf real waves in our mega pool</div>
+      </div>
+    </div>
+    <div class="attr-card">
+      <div class="attr-img bg-kids" style="background-image:url('https://images.unsplash.com/photo-1562955395-6669d7ddef86?w=600&q=80')"></div>
+      <div class="attr-overlay"></div>
+      <div class="attr-body">
+        <span class="attr-icon">🧒</span>
+        <div class="attr-title">Kids Zone</div>
+        <div class="attr-desc">Safe splash paradise for little ones</div>
+      </div>
+    </div>
+    <div class="attr-card">
+      <div class="attr-img bg-rain" style="background-image:url('https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=600&q=80')"></div>
+      <div class="attr-overlay"></div>
+      <div class="attr-body">
+        <span class="attr-icon">🌧️</span>
+        <div class="attr-title">Rain Dance</div>
+        <div class="attr-desc">DJ-powered dance under rain showers</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRICING ── -->
+<section class="pricing fade-in" id="pricing">
+  <div class="text-center">
+    <div class="section-tag">Ticket Pricing</div>
+    <h2 class="section-title">Simple, <span>Transparent</span> Pricing</h2>
+    <p class="section-sub" style="color:rgba(255,255,255,0.6)">Choose your splash package. Book via WhatsApp for instant confirmation!</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="price-type">Child</div>
+      <div class="price-amount"><sup>₹</sup>349</div>
+      <div class="price-per">per person · 3–10 yrs</div>
+      <ul class="price-features">
+        <li>All Kids Zone rides</li>
+        <li>Wave Pool access</li>
+        <li>Locker included</li>
+      </ul>
+      <a href="https://wa.me/918329271447?text=Hi%2C%20I%20want%20to%20book%20Child%20tickets%20at%20Fun2ssh%20Water%20Park!" class="btn-wa" target="_blank">
+        <span>💬</span> Book via WhatsApp
+      </a>
+    </div>
+    <div class="price-card featured">
+      <div class="price-badge">⭐ Best Value</div>
+      <div class="price-type">Adult</div>
+      <div class="price-amount"><sup>₹</sup>599</div>
+      <div class="price-per">per person · 11+ yrs</div>
+      <ul class="price-features">
+        <li>All attractions access</li>
+        <li>Wave Pool + Rain Dance</li>
+        <li>Locker + Towel</li>
+      </ul>
+      <a href="https://wa.me/918329271447?text=Hi%2C%20I%20want%20to%20book%20Adult%20tickets%20at%20Fun2ssh%20Water%20Park!" class="btn-wa" target="_blank">
+        <span>💬</span> Book via WhatsApp
+      </a>
+    </div>
+    <div class="price-card">
+      <div class="price-type">Family Pack</div>
+      <div class="price-amount"><sup>₹</sup>1,799</div>
+      <div class="price-per">2 adults + 2 kids</div>
+      <ul class="price-features">
+        <li>Full park access</li>
+        <li>Priority queues</li>
+        <li>Complimentary snacks</li>
+      </ul>
+      <a href="https://wa.me/918329271447?text=Hi%2C%20I%20want%20to%20book%20a%20Family%20Pack%20at%20Fun2ssh%20Water%20Park!" class="btn-wa" target="_blank">
+        <span>💬</span> Book via WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── GALLERY ── -->
+<section class="gallery fade-in" id="gallery">
+  <div class="text-center">
+    <div class="section-tag">Gallery</div>
+    <h2 class="section-title">Splash <span>Moments</span></h2>
+    <p class="section-sub">A glimpse of the fun that awaits you!</p>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-item">
+      <div class="gi-bg" style="background-image:url('https://images.unsplash.com/photo-1607305387299-a3d9611cd469?w=400&q=75')"></div>
+      <div class="gi-overlay"><span>🔍</span></div>
+    </div>
+    <div class="gallery-item">
+      <div class="gi-bg" style="background-image:url('https://images.unsplash.com/photo-1576185853584-baa0ecaf620c?w=400&q=75')"></div>
+      <div class="gi-overlay"><span>🔍</span></div>
+    </div>
+    <div class="gallery-item">
+      <div class="gi-bg" style="background-image:url('https://images.unsplash.com/photo-1555285782-4f0b5ace42cc?w=400&q=75')"></div>
+      <div class="gi-overlay"><span>🔍</span></div>
+    </div>
+    <div class="gallery-item">
+      <div class="gi-bg" style="background-image:url('https://images.unsplash.com/photo-1525466760727-1d8be8721154?w=400&q=75')"></div>
+      <div class="gi-overlay"><span>🔍</span></div>
+    </div>
+    <div class="gallery-item">
+      <div class="gi-bg" style="background-image:url('https://images.unsplash.com/photo-1560090995-01632a28895b?w=400&q=75')"></div>
+      <div class="gi-overlay"><span>🔍</span></div>
+    </div>
+    <div class="gallery-item">
+      <div class="gi-bg" style="background-image:url('https://images.unsplash.com/photo-1494790108755-2616b612b47c?w=400&q=75')"></div>
+      <div class="gi-overlay"><span>🔍</span></div>
+    </div>
+    <div class="gallery-item">
+      <div class="gi-bg" style="background-image:url('https://images.unsplash.com/photo-1527856263669-12c3a0af2aa6?w=400&q=75')"></div>
+      <div class="gi-overlay"><span>🔍</span></div>
+    </div>
+    <div class="gallery-item">
+      <div class="gi-bg" style="background-image:url('https://images.unsplash.com/photo-1537565832024-bde02408a2cc?w=400&q=75')"></div>
+      <div class="gi-overlay"><span>🔍</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── OFFERS ── -->
+<section class="offers fade-in" id="offers">
+  <div class="text-center">
+    <div class="section-tag">Deals & Offers</div>
+    <h2 class="section-title">Hot <span>Splashy Deals</span> 🔥</h2>
+    <p class="section-sub">Limited time offers — grab yours before they're gone!</p>
+  </div>
+  <div class="offers-grid">
+    <div class="offer-card weekend">
+      <span class="offer-emoji">🌅</span>
+      <div class="offer-title">Weekend Offer</div>
+      <div class="offer-desc">Bring the whole family every weekend and save big on group entries. Valid Sat–Sun.</div>
+      <div class="offer-discount">20% OFF</div>
+      <a href="https://wa.me/918329271447?text=Hi%2C%20I%20want%20to%20avail%20the%20Weekend%20Offer%20at%20Fun2ssh!" class="btn-wa" style="margin-top:1rem;" target="_blank">💬 Grab Deal</a>
+    </div>
+    <div class="offer-card group">
+      <span class="offer-emoji">👫</span>
+      <div class="offer-title">Group Discount</div>
+      <div class="offer-desc">Plan a trip with 10+ friends or colleagues. Special corporate packages available too!</div>
+      <div class="offer-discount">30% OFF</div>
+      <a href="https://wa.me/918329271447?text=Hi%2C%20I%20want%20to%20avail%20the%20Group%20Discount%20at%20Fun2ssh!" class="btn-wa" style="margin-top:1rem;" target="_blank">💬 Grab Deal</a>
+    </div>
+    <div class="offer-card bday">
+      <span class="offer-emoji">🎂</span>
+      <div class="offer-title">Birthday Package</div>
+      <div class="offer-desc">Make your birthday extra special! Cake, decoration, dedicated zone & surprise gifts included.</div>
+      <div class="offer-discount">Special Price</div>
+      <a href="https://wa.me/918329271447?text=Hi%2C%20I%20want%20to%20book%20a%20Birthday%20Package%20at%20Fun2ssh!" class="btn-wa" style="margin-top:1rem;" target="_blank">💬 Grab Deal</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── LOCATION ── -->
+<section class="location fade-in" id="location">
+  <div class="text-center">
+    <div class="section-tag">Location</div>
+    <h2 class="section-title">Find <span>Us Here</span> 📍</h2>
+  </div>
+  <div class="map-wrap">
+    <div class="map-placeholder">🗺️</div>
+    <div class="map-placeholder-text">Fun2ssh Water Park, Aurangabad</div>
+    <div class="map-address">📍 Aurangabad–Pune Highway, MIDC, Aurangabad – 431001, Maharashtra</div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section class="contact fade-in" id="contact">
+  <div class="text-center">
+    <div class="section-tag">Contact Us</div>
+    <h2 class="section-title">Get in <span>Touch</span></h2>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-card">
+      <span class="contact-icon">📞</span>
+      <div class="contact-label">Phone</div>
+      <div class="contact-value"><a href="tel:+919999999999">+91 99999 99999</a></div>
+    </div>
+    <div class="contact-card">
+      <span class="contact-icon">💬</span>
+      <div class="contact-label">WhatsApp</div>
+      <div class="contact-value"><a href="https://wa.me/918329271447?text=Hi%2C%20Fun2ssh!" target="_blank">Chat with Us</a></div>
+    </div>
+    <div class="contact-card">
+      <span class="contact-icon">⏰</span>
+      <div class="contact-label">Timings</div>
+      <div class="contact-value" style="font-size:0.8rem;">Mon–Fri: 10AM – 6PM<br>Sat–Sun: 9AM – 7PM</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-logo">💧Fun<span>2ssh</span></div>
+  <div class="footer-socials">
+    <a class="social-btn" href="#" aria-label="Instagram">📸</a>
+    <a class="social-btn" href="#" aria-label="Facebook">👍</a>
+    <a class="social-btn" href="#" aria-label="YouTube">▶️</a>
+    <a class="social-btn" href="#" aria-label="Twitter">🐦</a>
+  </div>
+  <div class="footer-copy">© 2025 Fun2ssh Water Park. All rights reserved. Made with 💙 in Aurangabad.</div>
+</footer>
+
+<!-- ── FLOATING WA ── -->
+<a class="float-wa" href="https://wa.me/918329271447?text=Hi%2C%20Fun2ssh%20Water%20Park!" target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
+
+<!-- ── STICKY BOOK NOW ── -->
+<a class="sticky-book" href="https://wa.me/918329271447?text=Hi%2C%20I%20want%20to%20book%20tickets%20for%20Fun2ssh%20Water%20Park!" target="_blank" rel="noopener">
+  🎟 Book Tickets Now — Instant WhatsApp Confirm
+</a>
+
+<script>
+  // ── Hamburger
+  const ham = document.getElementById('hamburger');
+  const nav = document.getElementById('navLinks');
+  ham.addEventListener('click', () => {
+    ham.classList.toggle('active');
+    nav.classList.toggle('open');
+  });
+  function closeNav() { ham.classList.remove('active'); nav.classList.remove('open'); }
+
+  // ── Bubbles
+  const bubbleContainer = document.getElementById('bubbles');
+  for(let i=0;i<22;i++){
+    const b = document.createElement('div');
+    b.className = 'bubble';
+    const size = Math.random()*60+20;
+    b.style.cssText = `
+      width:${size}px;height:${size}px;
+      left:${Math.random()*100}%;
+      bottom:${Math.random()*40}%;
+      animation-duration:${Math.random()*10+8}s;
+      animation-delay:${Math.random()*8}s;
+    `;
+    bubbleContainer.appendChild(b);
+  }
+
+  // ── Scroll fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
